@@ -1,5 +1,5 @@
 //Doing this on lab
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import { auth } from './firebase';
 import {
   createUserWithEmailAndPassword,
@@ -13,12 +13,26 @@ interface LoginProps {
   }
 
 const Login: React.FC<LoginProps> = () => {
-  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
 
-  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+  useEffect(() => {
+    const checkToken = () => {
+       const userToken = localStorage.getItem("token");
+       if (userToken){
+        navigate("/dashboard")
+       }
+       else {
+           console.log("User is not valid")
+           navigate("/")
+       }
+    }
+    checkToken()
+   }, [])
+
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -26,14 +40,18 @@ const Login: React.FC<LoginProps> = () => {
   };
 
   const handleLogin = async () => {
+    // console.log('Logging in with:', { email, password });
     try {
-      await signInWithEmailAndPassword(auth,username, password);
-      console.log('Login successful!');
-        navigate('/dashboard');
-    } catch (error) {
-      console.error('Error logging in:', error.message);
+      const data = await signInWithEmailAndPassword(auth, email, password);
+      const userToken = await data?.user?.accessToken;
+      localStorage.setItem("token",userToken)
+      alert("Login Sucessful")
+      navigate("/dashboard")
+
+  } catch (error:any) {
+      console.log("Error msg: ", error.message)
       alert(error.message)
-    }
+  }
   };
 
   return (
@@ -43,14 +61,14 @@ const Login: React.FC<LoginProps> = () => {
         <form>
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
-              Username
+              Email
             </label>
             <input
-              type="text"
+              type="email"
               className="form-control"
-              id="username"
-              value={username}
-              onChange={handleUsernameChange}
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
             />
           </div>
           <div className="mb-3">
@@ -71,7 +89,7 @@ const Login: React.FC<LoginProps> = () => {
             </button>
           </div>
           <h3 className='d-flex justify-content-center align-items-center'><a href="/register">Register</a></h3>
-        </form>       
+        </form>
       </div>
     </div>
   );
