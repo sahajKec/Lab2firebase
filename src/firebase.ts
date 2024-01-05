@@ -1,8 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-// Your web app's Firebase configuration
-
 
 // const firebaseConfig: FirebaseConfig = {
 //   apiKey: "YOUR_API_KEY",
@@ -14,15 +12,12 @@ import { getAuth } from "firebase/auth";
 //   measurementId: "YOUR_MES_ID",
 // };
 const firebaseConfig = {
-    apiKey: "AIzaSyBnxvrAgdXa82wpQWjFgXcb5ARF3YU3y9c",
-    authDomain: "randomprojectname-833f8.firebaseapp.com",
-    projectId: "randomprojectname-833f8",
-    storageBucket: "randomprojectname-833f8.appspot.com",
-    messagingSenderId: "821491817089",
-    appId: "1:821491817089:web:e1b930e74be2d26c310b80",
-    measurementId: "G-V89HPSETM6"
-  };
-
-// Initialize Firebase
+    apiKey: "AIzaSyAHzS6aZpLOlrojPwRr3RDsoYYiosCWgaU",
+    authDomain: "bctlogin-dbb37.firebaseapp.com",
+    projectId: "bctlogin-dbb37",
+    storageBucket: "bctlogin-dbb37.appspot.com",
+    messagingSenderId: "535728973924",
+    appId: "1:535728973924:web:267868810d6c65e06c9771"
+};
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
