@@ -1,24 +1,44 @@
-import React, { useEffect, useState } from 'react'
-import { auth } from './firebase';
-import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { auth } from './firebase'
 
-interface DashboardProps {
-    auth: boolean;
-    setAuth: React.Dispatch<React.SetStateAction<boolean>>;
-}
+const Dashboard = () => {
+    const navigate = useNavigate()
 
+    useEffect(() => {
+     const checkToken = () => {
+        const userToken = localStorage.getItem("token");
+        if (userToken){
+            console.log("User is valid")
+        }
+        else {
+            console.log("User is not valid")
+            navigate("/")
+        }
+     }
+     checkToken()
+    }, [])
 
+    const logoutuser = async () => {
+        try {
+            await signOut(auth);
+            localStorage.removeItem("token")
+            navigate("/")
+        } catch (error:any) {
+            console.log("Error msg: ", error.message)
+            alert(error.message)
+        }
+    }
 
-
-
-const Dashboard: React.FC<DashboardProps> = ({ auth, setAuth }) => {
-    const navigate = useNavigate();
-    const [userId, setUserid] = useState<String>('')
-
-
-    return (
+  return (
+    <>
         <div>Dashboard</div>
-    )
+        <div>
+            <button onClick={logoutuser}>Logout</button>
+        </div>
+    </>
+  )
 }
 
 export default Dashboard
