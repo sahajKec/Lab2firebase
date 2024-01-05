@@ -1,41 +1,41 @@
 //Make students do this
 import React, { useState, ChangeEvent } from 'react';
-import { auth } from './firebase';
-import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-  } from "firebase/auth";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
+import { auth } from './firebase';
 import { useNavigate } from 'react-router-dom';
 
+interface RegisterProps { }
 
 const Register: React.FC<RegisterProps> = () => {
-    const [username, setUsername] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const navigate = useNavigate();
-
-
-
-    const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setUsername(e.target.value);
+    const navigate = useNavigate()
+    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
     };
 
     const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     };
 
-    const handleRegister = async () => {
+    const handleLogin = async () => {
+        // console.log('Logging in with:', { email, password });
         try {
-          await createUserWithEmailAndPassword(auth, username, password);
-          console.log('Registration successful!');
-          alert('Registration successful!')
-          navigate('/')
-        } catch (error) {
-          console.error('Error registering:', error.message);
-          alert(error.message)
+            const data = await createUserWithEmailAndPassword(auth, email, password)
+                .then((userData) => {
+                    if (userData.user.uid) {
+                        sendEmailVerification((userData.user))
+                        alert("Registration Success")
+                        signOut(auth);
+                        navigate("/")
+                    }
+                })
+        } catch (error:any) {
+            console.log("Error msg: ", error.message)
+            alert(error.message)
         }
-      };
+    };
 
     return (
         <div className="container d-flex justify-content-center align-items-center vh-100">
@@ -44,14 +44,14 @@ const Register: React.FC<RegisterProps> = () => {
                 <form>
                     <div className="mb-3">
                         <label htmlFor="username" className="form-label">
-                            Username
+                            Email
                         </label>
                         <input
-                            type="text"
+                            type="email"
                             className="form-control"
-                            id="username"
-                            value={username}
-                            onChange={handleUsernameChange}
+                            id="email"
+                            value={email}
+                            onChange={handleEmailChange}
                         />
                     </div>
                     <div className="mb-3">
@@ -67,7 +67,7 @@ const Register: React.FC<RegisterProps> = () => {
                         />
                     </div>
                     <div className="text-center">
-                        <button type="button" className="btn btn-primary" onClick={handleRegister}>
+                        <button type="button" className="btn btn-primary" onClick={handleLogin}>
                             Register
                         </button>
                     </div>
