@@ -25,7 +25,7 @@ const Register: React.FC<RegisterProps> = () => {
     }
     checkToken()
    }, [])
-    
+
     const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
     };
@@ -37,7 +37,7 @@ const Register: React.FC<RegisterProps> = () => {
     const handleLogin = async () => {
         // console.log('Logging in with:', { email, password });
         try {
-            const data = await createUserWithEmailAndPassword(auth, email, password)
+            await createUserWithEmailAndPassword(auth, email, password)
                 .then((userData) => {
                     if (userData.user.uid) {
                         sendEmailVerification((userData.user))
