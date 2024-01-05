@@ -2,15 +2,13 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import { auth } from './firebase';
 import {
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 
-interface LoginProps {
+interface LoginProps {  }
 
-  }
 
 const Login: React.FC<LoginProps> = () => {
   const [email, setEmail] = useState<string>('');
@@ -42,8 +40,8 @@ const Login: React.FC<LoginProps> = () => {
   const handleLogin = async () => {
     // console.log('Logging in with:', { email, password });
     try {
-      const data = await signInWithEmailAndPassword(auth, email, password);
-      const userToken = await data?.user?.accessToken;
+      const data:any = await signInWithEmailAndPassword(auth, email, password);
+      const userToken:string = await data?.user?.accessToken;
       localStorage.setItem("token",userToken)
       alert("Login Sucessful")
       navigate("/dashboard")
