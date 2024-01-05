@@ -4,13 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './Login.tsx';
 import Dashboard from './Dashboard.tsx';
 
-interface AppProps {
-    auth: boolean;
-    setAuth: React.Dispatch<React.SetStateAction<boolean>>;
-  }
 
-  
-  const App: React.FC<AppProps> = ({ auth, setAuth }) => {
+
+  const App: React.FC = () => {
   return (
     <BrowserRouter>
     <Routes>
