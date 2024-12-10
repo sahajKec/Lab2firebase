@@ -21,9 +21,8 @@ const Login: React.FC<LoginProps> = () => {
        if (userToken){
         navigate("/dashboard")
        }
-       else {
-           console.log("User is not valid")
-           navigate("/")
+       else if (!userToken){
+           navigate("/");
        }
     }
     checkToken()
@@ -41,6 +40,7 @@ const Login: React.FC<LoginProps> = () => {
     // console.log('Logging in with:', { email, password });
     try {
       const data:any = await signInWithEmailAndPassword(auth, email, password);
+      console.log(data, "login | console");
       const userToken:string = await data?.user?.accessToken;
       localStorage.setItem("token",userToken)
       alert("Login Sucessful")
