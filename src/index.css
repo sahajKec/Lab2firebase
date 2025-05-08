@@ -24,8 +24,7 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  display:flexbox;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -65,4 +64,35 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.box-container {
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.logout-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: white;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #850512;
 }

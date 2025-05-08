@@ -1,0 +1,201 @@
+/* Container styles */
+.dashboard-container {
+    background-color: #f7f7f7;
+    min-height: 100vh;
+  }
+  
+  /* Navigation Bar */
+  .navbar {
+    background-color: #2d3748; /* Dark Gray */
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .navbar-logout {
+    background-color: #e53e3e; /* Red */
+    color: white;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .navbar-logout:hover {
+    background-color: #c53030;
+  }
+  
+  /* Content Container */
+  .content-container {
+    display: grid;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    grid-template-columns: 1fr;
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  /* Card Styles */
+  .card {
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.375rem;
+    padding: 2rem;
+  }
+  
+  .verification-card {
+    text-align: center;
+  }
+  
+  .quick-actions-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  /* Verification Message */
+  .verification-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .warning-text {
+    color: #f6ad55; /* Orange */
+    font-size: 1.25rem;
+  }
+  
+  .message-text {
+    color: #4a5568; /* Gray */
+    font-size: 1rem;
+  }
+  
+  .btn-verify {
+    background-color: #38b2ac; /* Teal */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-verify:hover {
+    background-color: #319795;
+  }
+  
+  /* Welcome Message */
+  .welcome-message {
+    text-align: center;
+  }
+  
+  .welcome-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2d3748;
+  }
+  
+  .email-verified-text {
+    color: #4a5568; /* Gray */
+  }
+  
+  /* Quick Actions */
+  .quick-actions-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #2d3748;
+  }
+  
+  .message-box {
+    padding: 1rem;
+    border-radius: 0.375rem;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .success {
+    background-color: #c6f6d5; /* Light Green */
+    color: #38a169; /* Green */
+  }
+  
+  .error {
+    background-color: #fed7d7; /* Light Red */
+    color: #e53e3e; /* Red */
+  }
+  
+  .btn-update-name {
+    background-color: #48bb78; /* Green */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 1.5rem;
+  }
+  
+  .btn-update-name:hover {
+    background-color: #38a169;
+  }
+  
+  .name-update-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .input-name {
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    border: 1px solid #e2e8f0; /* Gray border */
+    outline: none;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+  }
+  
+  .input-name:focus {
+    border-color: #3182ce; /* Blue */
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .btn-submit {
+    background-color: #4299e1; /* Blue */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-submit:hover {
+    background-color: #3182ce;
+  }
+  
+  .btn-cancel {
+    background-color: #edf2f7; /* Light Gray */
+    color: #2d3748;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-cancel:hover {
+    background-color: #e2e8f0;
+  }
+  
