@@ -1,93 +1,113 @@
-//Doing this on lab
-import React, { useState, ChangeEvent, useEffect } from 'react';
-import { auth } from './firebase';
-import {
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, ChangeEvent } from "react";
+import { auth } from "./firebase";
+import { signInWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { useNavigate, Link } from "react-router-dom";
 
-interface LoginProps {  }
-
-
-const Login: React.FC<LoginProps> = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+const Login = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [message, setMessage] = useState<{
+    text: string;
+    type: "success" | "error" | "";
+  }>({ text: "", type: "" });
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkToken = () => {
-       const userToken = localStorage.getItem("token");
-       if (userToken){
-        navigate("/dashboard")
-       }
-       else {
-           console.log("User is not valid")
-           navigate("/")
-       }
+    const userToken = localStorage.getItem("token");
+    if (userToken) {
+      navigate("/dashboard");
     }
-    checkToken()
-   }, [])
-
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
+  }, [navigate]);
 
   const handleLogin = async () => {
-    // console.log('Logging in with:', { email, password });
+    setMessage({ text: "", type: "" });
     try {
-      const data:any = await signInWithEmailAndPassword(auth, email, password);
-      const userToken:string = await data?.user?.accessToken;
-      localStorage.setItem("token",userToken)
-      alert("Login Sucessful")
-      navigate("/dashboard")
-
-  } catch (error:any) {
-      console.log("Error msg: ", error.message)
-      alert(error.message)
-  }
+      const data: UserCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const userToken: string = await data.user.getIdToken();
+      if (userToken) {
+        localStorage.setItem("token", userToken);
+        setMessage({
+          text: "Login Successful! Redirecting...",
+          type: "success",
+        });
+        setTimeout(() => navigate("/dashboard"), 1000);
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setMessage({ text: error.message, type: "error" });
+      } else {
+        setMessage({ text: "An unexpected error occurred.", type: "error" });
+      }
+      setPassword("");
+    }
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
-      <div className="card p-4">
-        <h3 className="card-title text-center mb-4">Login</h3>
-        <form>
-          <div className="mb-3">
-            <label htmlFor="username" className="form-label">
-              Email
+    <div className="min-h-screen flex items-center justify-center p-6">
+      <div className="w-full max-w-md shadow-lg rounded-3xl p-8 flex flex-col gap-20 border border-white/30">
+        <h2 className="text-center text-4xl font-extrabold">Sign In</h2>
+
+        <form className="space-y-6 flex flex-col gap-3">
+          <div>
+            <label htmlFor="email" className="block font-medium">
+              Email Address
             </label>
             <input
-              type="email"
-              className="form-control"
               id="email"
+              type="email"
               value={email}
-              onChange={handleEmailChange}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setEmail(e.target.value)
+              }
+              className="mt-1 w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter your email"
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
+          <div>
+            <label htmlFor="password" className="block font-medium">
               Password
             </label>
             <input
-              type="password"
-              className="form-control"
               id="password"
+              type="password"
               value={password}
-              onChange={handlePasswordChange}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
+              className="mt-1 w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Enter your password"
             />
           </div>
-          <div className="text-center">
-            <button type="button" className="btn btn-primary" onClick={handleLogin}>
-              Login
-            </button>
-          </div>
-          <h3 className='d-flex justify-content-center align-items-center'><a href="/register">Register</a></h3>
+
+          <button
+            type="button"
+            onClick={handleLogin}
+            className="w-full hover:bg-purple-900 bg-gradient-to-r from-blue-500 to-purple-500 hover:opacity-55 hover:text-black hover:cursor-pointer text-white font-semibold py-3 rounded-md transition border-[1px]"
+          >
+            Sign In
+          </button>
+
+          {message.text && (
+            <p
+              className={`text-center mt-3 text-md font-medium ${
+                message.type === "success" ? "text-green-400" : "text-red-400"
+              }`}
+            >
+              {message.text}
+            </p>
+          )}
         </form>
+
+        <div className="text-center">
+          <Link to="/register" className="hover:underline">
+            Not registered yet?{" "}
+            <span className="font-semibold">Register here.</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
