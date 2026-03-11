@@ -1,21 +1,32 @@
-import React from 'react'
-import Register from './Register.tsx'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from './Login.tsx';
-import Dashboard from './Dashboard.tsx';
+import { useState, useEffect } from 'react'
+import { onAuthStateChanged, User } from 'firebase/auth'
+import { auth } from './firebase'
+import AuthPage from './components/AuthPage'
+import Portfolio from './components/Portfolio'
+import Loader from './components/Loader'
 
+type AppState = 'loading' | 'auth' | 'portfolio'
 
+function App() {
+  const [state, setState] = useState<AppState>('loading')
+  const [user, setUser] = useState<User | null>(null)
 
-  const App: React.FC = () => {
-  return (
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-    </Routes>
-  </BrowserRouter>
-  )
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser && firebaseUser.emailVerified) {
+        setUser(firebaseUser)
+        setState('portfolio')
+      } else {
+        setUser(null)
+        setState('auth')
+      }
+    })
+    return () => unsub()
+  }, [])
+
+  if (state === 'loading') return <Loader />
+  if (state === 'portfolio' && user) return <Portfolio user={user} />
+  return <AuthPage />
 }
 
 export default App
