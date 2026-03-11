@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDBTN_k7bc1XpqPveUKxVXPtEVZMjqLTJA",
+  apiKey: "AIzaSy.....................",
   authDomain: "lab-auth-demo.firebaseapp.com",
   projectId: "lab-auth-demo",
   storageBucket: "lab-auth-demo.firebasestorage.app",
@@ -12,4 +12,5 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+
 export default app;
